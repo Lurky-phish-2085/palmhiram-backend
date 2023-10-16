@@ -65,10 +65,14 @@ router.get('/v1/send-otp', async (req, res) => {
       info
     })
 
+    console.log('/v1/send-otp: email sent successfully!')
+
   } catch (error) {
     res.status(StatusCodes.BAD_REQUEST).json({
       error
     })
+
+    console.log('/v1/send-otp: email failed to send!', error)
   }
 })
 
