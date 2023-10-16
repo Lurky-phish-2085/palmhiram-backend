@@ -17,7 +17,7 @@ router.get('/v1/ping', (req, res) => {
 })
 
 router.get('/v1/send-otp', async (req, res) => {
-  let mailTransporter = nodemailer.createTransport({
+  let mailTransporter = createTransport({
     service: "gmail",
     auth: {
       user: "danangelotorrecampo@gmail.com",
