@@ -20,13 +20,15 @@ router.get('/v1/send-otp', async (req, res) => {
   const { body: user } = req
   const email = user.email
 
+  const subject = "PalmHiram: Email Verification"
+
   const content = `
   <!DOCTYPE html>
   <html lang="en">
   <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Account Email Verification</title>
+      <title>${subject}</title>
   </head>
   <body>
       <p>Dear [User's Name],</p>
@@ -58,7 +60,7 @@ router.get('/v1/send-otp', async (req, res) => {
   let details = {
     from: "danangelotorrecampo@gmail.com",
     to: email,
-    subject: "Email Verification",
+    subject: subject,
     html: content
   }
 
