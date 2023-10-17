@@ -58,7 +58,7 @@ router.get('/v1/send-otp', async (req, res) => {
   let details = {
     from: "danangelotorrecampo@gmail.com",
     to: email,
-    subject: "TEST",
+    subject: "Email Verification",
     html: content
   }
 
@@ -70,7 +70,7 @@ router.get('/v1/send-otp', async (req, res) => {
       info
     })
 
-    console.log('/v1/send-otp: email sent successfully!')
+    console.log(`/v1/send-otp: email sent successfully to ${email}`)
 
   } catch (error) {
     res.status(StatusCodes.BAD_REQUEST).json({
