@@ -10,7 +10,7 @@ app.use(express.json())
 
 const router = express.Router()
 
-router.post('/v1/ping', (req, res) => {
+router.get('/v1/ping', (req, res) => {
   return res.status(StatusCodes.OK).json(
     { message: "Hello, World!" }
   )
@@ -21,7 +21,7 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-router.get('/v1/send-otp', async (req, res) => {
+router.post('/v1/send-otp', async (req, res) => {
   const min = 10000000
   const max = 19999999
   const otp = getRandomInt(min, max)
