@@ -17,25 +17,16 @@ router.get('/v1/ping', (req, res) => {
 })
 
 router.get('/v1/send-otp', async (req, res) => {
-  let mailTransporter = createTransport({
-    service: "gmail",
-    auth: {
-      user: "danangelotorrecampo@gmail.com",
-      pass: "egoaukqxlfgwkaki",
-    }
-  })
+  const { body: user } = req
+  const email = user.email
 
-  let details = {
-    from: "danangelotorrecampo@gmail.com",
-    to: "dlocks11@gmail.com",
-    subject: "TEST",
-    html: `
+  const content = `
   <!DOCTYPE html>
   <html lang="en">
   <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Account Activation</title>
+      <title>Account Email Verification</title>
   </head>
   <body>
       <p>Dear [User's Name],</p>
@@ -55,6 +46,20 @@ router.get('/v1/send-otp', async (req, res) => {
   </body>
   </html>
   `
+
+  let mailTransporter = createTransport({
+    service: "gmail",
+    auth: {
+      user: "danangelotorrecampo@gmail.com",
+      pass: "egoaukqxlfgwkaki",
+    }
+  })
+
+  let details = {
+    from: "danangelotorrecampo@gmail.com",
+    to: email,
+    subject: "TEST",
+    html: content
   }
 
   try {
