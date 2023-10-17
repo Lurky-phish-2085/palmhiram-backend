@@ -27,6 +27,7 @@ router.get('/v1/send-otp', async (req, res) => {
   const otp = getRandomInt(min, max)
 
   const { body: user } = req
+  const displayName = user.name
   const email = user.email
   const subject = "PalmHiram: Email Verification"
 
@@ -39,9 +40,9 @@ router.get('/v1/send-otp', async (req, res) => {
       <title>${subject}</title>
   </head>
   <body>
-      <p>Dear [User's Name],</p>
+      <p>Dear ${displayName},</p>
 
-      <p>Welcome to [Your Company/Service Name]! We're excited to have you on board.</p>
+      <p>Welcome to Palm Hiram! We're excited to have you on board.</p>
 
       <p>To complete your account setup, please use the following one-time password (OTP):</p>
 
@@ -49,10 +50,10 @@ router.get('/v1/send-otp', async (req, res) => {
 
       <p>This OTP is valid for a short period, so please enter it promptly to ensure a smooth registration process. If you didn't request this OTP, please contact our support immediately at [Your Support Email or Phone Number].</p>
 
-      <p>Thank you for choosing [Your Company/Service Name]. We look forward to serving you!</p>
+      <p>Thank you for choosing Palm Hiram. We look forward to serving you!</p>
 
       <p>Best regards,<br>
-      [Your Company/Service Name] Team</p>
+      Palm Hiram Team</p>
   </body>
   </html>
   `
@@ -69,6 +70,7 @@ router.get('/v1/send-otp', async (req, res) => {
     from: "danangelotorrecampo@gmail.com",
     to: email,
     subject: subject,
+    text: content,
     html: content
   }
 
