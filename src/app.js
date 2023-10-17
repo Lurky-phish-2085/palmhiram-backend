@@ -10,7 +10,7 @@ app.use(express.json())
 
 const router = express.Router()
 
-router.get('/v1/ping', (req, res) => {
+router.post('/v1/ping', (req, res) => {
   return res.status(StatusCodes.OK).json(
     { message: "Hello, World!" }
   )
