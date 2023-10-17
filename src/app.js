@@ -16,10 +16,18 @@ router.get('/v1/ping', (req, res) => {
   )
 })
 
+// Generate a random integer between min (inclusive) and max (inclusive)
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 router.get('/v1/send-otp', async (req, res) => {
+  const min = 10000000
+  const max = 19999999
+  const otp = getRandomInt(min, max)
+
   const { body: user } = req
   const email = user.email
-
   const subject = "PalmHiram: Email Verification"
 
   const content = `
@@ -37,7 +45,7 @@ router.get('/v1/send-otp', async (req, res) => {
 
       <p>To complete your account setup, please use the following one-time password (OTP):</p>
 
-      <h2 style="background-color: #f2f2f2; padding: 10px; border-radius: 5px; text-align: center;">[Your OTP Here]</h2>
+      <h2 style="background-color: #f2f2f2; padding: 10px; border-radius: 5px; text-align: center;">${otp}</h2>
 
       <p>This OTP is valid for a short period, so please enter it promptly to ensure a smooth registration process. If you didn't request this OTP, please contact our support immediately at [Your Support Email or Phone Number].</p>
 
@@ -69,7 +77,7 @@ router.get('/v1/send-otp', async (req, res) => {
 
     res.status(StatusCodes.CREATED).json({
       message: "SUCCESS!!!",
-      info
+      otp
     })
 
     console.log(`/v1/send-otp: email sent successfully to ${email}`)
