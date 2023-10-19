@@ -6,10 +6,10 @@ const resetColor = '\x1b[0m';
 
 export const logDebug = (routeName, message) => {
 
-  console.log(`${greenColor}${getDateTimeNow()}`, `${routeName}: ${message}`)
+  console.log(`${greenColor}${getDateTimeNow()}${resetColor}`, `${routeName}: ${message}`)
 }
 
 export const logError = (routeName, message) => {
 
-  console.log(`${redColor}${getDateTimeNow()}`, `${routeName}: ${message}`)
+  console.log(`${redColor}${getDateTimeNow()}${resetColor}`, `${routeName}: ${message}`)
 }
