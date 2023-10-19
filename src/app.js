@@ -68,17 +68,22 @@ router.post('/v1/send-verification', async (req, res) => {
       <div class="container">
           <h1>${subject}</h1>
           <p>Dear ${displayName},</p>
+          <br>
           <p>Welcome to PalmHiram! You are almost there!</p>
+          <br>
 
           <p>You already have an account with us, but in order to make business with us,
              we kindly ask you to complete the verification process by
              obtaining a verification code from our agent.
           </p>
 
+          <br>
           <p>Please contact our verification agent at [Agent Email or Phone] to obtain the code.</p>
 
+          <br>
           <p>If you have any questions or need assistance, feel free to reply to this email.</p>
-
+          
+          <br>
           <p>Thank you for choosing PalmHiram!</p>
           <p>Best regards,<br>PalmHiram</p>
       </div>
