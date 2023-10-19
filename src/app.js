@@ -26,7 +26,7 @@ function getRandomInt(min, max) {
 router.post('/v1/send-verification', async (req, res) => {
 
   const { body: user } = req
-  const displayName = user.name
+  const displayName = user.username
   const email = user.email
   const subject = "PalmHiram: Account Verification"
 
