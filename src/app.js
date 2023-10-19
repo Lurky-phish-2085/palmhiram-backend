@@ -3,7 +3,7 @@ import { StatusCodes } from "http-status-codes";
 
 import { createTransport } from "nodemailer";
 
-import { logDebug } from "./utils/logUtils";
+import { logDebug, logError } from "./utils/logUtils";
 
 const app = express()
 const port = 4000
@@ -65,7 +65,7 @@ router.post('/v1/send-verification', async (req, res) => {
       message: error
     })
 
-    logDebug('/v1/send-verification', `email failed to send! ${error}`)
+    logError('/v1/send-verification', `email failed to send! ${error}`)
   }
 })
 
@@ -137,7 +137,7 @@ router.post('/v1/send-otp', async (req, res) => {
       error
     })
 
-    logDebug('/v1/send-otp', `email failed to send!, ${error}`)
+    logError('/v1/send-otp', `email failed to send!, ${error}`)
   }
 })
 
