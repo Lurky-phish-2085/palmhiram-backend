@@ -3,6 +3,8 @@ import { StatusCodes } from "http-status-codes";
 
 import { createTransport } from "nodemailer";
 
+import { logDebug } from "./utils/logUtils";
+
 const app = express()
 const port = 4000
 
@@ -20,6 +22,52 @@ router.get('/v1/ping', (req, res) => {
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+
+router.post('/v1/send-verification', async (req, res) => {
+
+  const { body: user } = req
+  const displayName = user.name
+  const email = user.email
+  const subject = "PalmHiram: Account Verification"
+
+  const content = `
+  `
+
+  let mailTransporter = createTransport({
+    service: "gmail",
+    auth: {
+      user: "danangelotorrecampo@gmail.com",
+      pass: "egoaukqxlfgwkaki",
+    }
+  })
+
+  let details = {
+    from: "danangelotorrecampo@gmail.com",
+    to: email,
+    subject: subject,
+    text: content,
+    html: content
+  }
+
+  try {
+    let info = await mailTransporter.sendMail(details)
+
+    res.status(StatusCodes.CREATED).json({
+      status: "OK",
+      message: "SUCCESS!",
+    })
+
+    logDebug('/v1/send-verification', ` email sent successfully to ${email}`)
+
+  } catch (error) {
+    res.status(StatusCodes.BAD_REQUEST).json({
+      status: "BAD",
+      message: error
+    })
+
+    logDebug('/v1/send-verification', `email failed to send! ${error}`)
+  }
+})
 
 router.post('/v1/send-otp', async (req, res) => {
   const min = 10000000
@@ -82,14 +130,14 @@ router.post('/v1/send-otp', async (req, res) => {
       otp
     })
 
-    console.log(`/v1/send-otp: email sent successfully to ${email}`)
+    logDebug('/v1/send-otp', `email sent successfully to ${email}`)
 
   } catch (error) {
     res.status(StatusCodes.BAD_REQUEST).json({
       error
     })
 
-    console.log('/v1/send-otp: email failed to send!', error)
+    logDebug('/v1/send-otp', `email failed to send!, ${error}`)
   }
 })
 
