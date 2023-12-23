@@ -128,6 +128,117 @@ router.post('/v1/send-verification', async (req, res) => {
   }
 })
 
+router.post('/v1/send-verification-code', async (req, res) => {
+
+  const min = 10000000
+  const max = 19999999
+  const code = getRandomInt(min, max)
+
+  const { body: user } = req
+  const displayName = user.username
+  const email = user.email
+  const subject = "PalmHiram: Account Verification Code"
+
+  const content = `
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>${subject}</title>
+      <style>
+          body {
+              font-family: 'Arial', sans-serif;
+              margin: 0;
+              padding: 0;
+              background-color: #f4f4f4;
+          }
+
+          .container {
+              max-width: 600px;
+              margin: 0 auto;
+              padding: 20px;
+              background-color: #ffffff;
+              box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+          }
+
+          h1 {
+              color: #333;
+          }
+
+          p {
+              color: #555;
+          }
+      </style>
+  </head>
+
+  <body>
+      <div class="container">
+          <h1>${subject}</h1>
+          <p>Dear ${displayName},</p>
+          <br>
+          <p>Welcome to PalmHiram! You are almost there!</p>
+          <br>
+
+          <p>You are now one step away from getting verified!</p>
+
+
+          <h2 style="background-color: #f2f2f2; padding: 10px; border-radius: 5px; text-align: center;">${code}</h2>
+
+          <p>
+            We have finally verified your account! To continue, please submit this special code for you in the application's 
+            Verification Screen.
+          </p>
+
+          <br>
+          <p>If you have any questions or need assistance, feel free to reply to this email.</p>
+          
+          <br>
+          <p>Thank you for choosing PalmHiram!</p>
+          <p>Best regards,<br>PalmHiram</p>
+      </div>
+  </body>
+
+  </html>
+  `
+
+  let mailTransporter = createTransport({
+    service: "gmail",
+    auth: {
+      user: "danangelotorrecampo@gmail.com",
+      pass: "egoaukqxlfgwkaki",
+    }
+  })
+
+  let details = {
+    from: "danangelotorrecampo@gmail.com",
+    to: email,
+    subject: subject,
+    text: content,
+    html: content
+  }
+
+  try {
+    let info = await mailTransporter.sendMail(details)
+
+    res.status(StatusCodes.CREATED).json({
+      message: "SUCCESS!!!",
+      code
+    })
+
+    logDebug('/v1/send-verification-code', ` email sent successfully to ${email}`)
+
+  } catch (error) {
+    res.status(StatusCodes.BAD_REQUEST).json({
+      status: "BAD",
+      message: error
+    })
+
+    logError('/v1/send-verification-code', `email failed to send! ${error}`)
+  }
+})
+
 router.post('/v1/send-otp', async (req, res) => {
   const min = 10000000
   const max = 19999999
